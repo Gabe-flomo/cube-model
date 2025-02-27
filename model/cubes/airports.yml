@@ -1,0 +1,146 @@
+cubes:
+  - name: airports
+    title: Airports
+    description: Detailed information about airports, including airport code, name, and location. Each row represents a unique airport entry.
+    sql_table: hex_app_data.semantic_model_data.airports
+    data_source: default
+
+    joins:
+      - name: flights
+        relationship: one_to_many
+        sql: "{CUBE.code} = {flights.origin}"
+
+    dimensions:
+      - name: id
+        sql: id
+        type: number
+        primary_key: true
+
+      - name: elevation
+        sql: elevation
+        type: number
+
+      - name: elevation_in_meters
+        sql: |
+          {CUBE}.elevation * 0.3048
+        type: number
+        
+      - name: county
+        sql: county
+        type: string
+
+      - name: state
+        sql: state
+        type: string
+
+      - name: state_and_county
+        sql: |
+          concat({CUBE}.state,' - ', {CUBE}.county)
+        type: string
+
+      - name: code
+        sql: code
+        type: string
+
+      - name: major
+        sql: major
+        type: string
+
+      - name: own_type
+        sql: own_type
+        type: string
+
+      - name: site_number
+        sql: site_number
+        type: string
+
+      - name: fac_type
+        sql: fac_type
+        type: string
+
+      - name: fac_use
+        sql: fac_use
+        type: string
+
+      - name: faa_region
+        sql: faa_region
+        type: string
+
+      - name: faa_dist
+        sql: faa_dist
+        type: string
+
+      - name: city
+        sql: city
+        type: string
+
+      - name: full_name
+        sql: full_name
+        type: string
+
+      - name: aero_cht
+        sql: aero_cht
+        type: string
+
+      - name: cbd_dir
+        sql: cbd_dir
+        type: string
+
+      - name: act_date
+        sql: act_date
+        type: time
+
+      - name: cert
+        sql: cert
+        type: string
+
+      - name: fed_agree
+        sql: fed_agree
+        type: string
+
+      - name: cust_intl
+        sql: cust_intl
+        type: string
+
+      - name: c_ldg_rts
+        sql: c_ldg_rts
+        type: string
+
+      - name: joint_use
+        sql: joint_use
+        type: string
+
+      - name: mil_rts
+        sql: mil_rts
+        type: string
+
+      - name: cntl_twr
+        sql: cntl_twr
+        type: string
+
+    measures:
+      - name: airport_count
+        title: Airport Count
+        description: The total number of airports in the dataset.
+        type: count
+
+      - name: sum_elevation_in_meters
+        title: Sum of Elevation in Meters
+        description: The sum of the elevation of all airports in meters.
+        sql: "{elevation_in_meters}"
+        type: sum
+
+      - name: avg_elevation_in_meters
+        title: Average Elevation in Meters
+        description: The average elevation of all airports in meters.
+        sql: "{elevation_in_meters}"
+        type: avg
+
+    segments:
+      - name: heliports
+        sql: |
+          {CUBE}.fac_type = 'HELIPORT'
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started

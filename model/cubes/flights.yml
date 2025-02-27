@@ -1,0 +1,128 @@
+cubes:
+  - name: flights
+    title: Flights
+    description: Detailed information about flights, including origin, destination, carrier, and flight details. Each row represents a unique flight entry.
+    sql_table: hex_app_data.semantic_model_data.flights
+    data_source: default
+
+    joins:
+      - name: carriers
+        relationship: many_to_one
+        sql: "{CUBE.carrier} = {carriers.code}"
+      - name: aircraft
+        relationship: many_to_one
+        sql: "{CUBE.tail_num} = {aircraft.tail_num}"
+
+    dimensions:
+      - name: id2
+        sql: id2
+        type: number
+        primary_key: true
+        
+      - name: origin
+        sql: origin
+        type: string
+
+      - name: destination
+        sql: destination
+        type: string
+
+      - name: flight_num
+        sql: flight_num
+        type: string
+
+      - name: tail_num
+        sql: tail_num
+        type: string
+
+      - name: cancelled
+        sql: cancelled
+        type: string
+
+      - name: diverted
+        sql: diverted
+        type: string
+
+      - name: carrier
+        sql: carrier
+        type: string
+
+      - name: dep_time
+        sql: dep_time
+        type: time
+
+      - name: arr_time
+        sql: arr_time
+        type: time
+
+      - name: distance
+        sql: distance
+        type: number
+
+      - name: dep_delay
+        sql: dep_delay
+        type: number
+
+      - name: arr_delay
+        sql: arr_delay
+        type: number
+
+      - name: taxi_out
+        sql: taxi_out
+        type: number
+
+      - name: taxi_in
+        sql: taxi_in
+        type: number
+
+    measures:
+      - name: flight_count
+        title: Flight Count
+        description: The total number of flights in the dataset.
+        type: count
+
+      - name: total_distance
+        title: Total Distance
+        description: The total distance traveled by all flights in the dataset.
+        type: sum
+        sql: distance
+
+      - name: avg_distance
+        title: Average Distance
+        description: The average distance traveled by all flights in the dataset.
+        type: avg
+        sql: distance
+
+      - name: avg_air_time
+        title: Average Air Time
+        description: The average air time of all flights in the dataset.
+        type: avg
+        sql: air_time
+
+      - name: total_dep_delay
+        title: Total Departure Delay
+        description: The total departure delay of all flights in the dataset.
+        type: sum
+        sql: dep_delay
+
+      - name: avg_dep_delay
+        title: Average Departure Delay
+        description: The average departure delay of all flights in the dataset.
+        type: avg
+        sql: dep_delay
+
+      - name: total_arr_delay
+        title: Total Arrival Delay
+        description: The total arrival delay of all flights in the dataset.
+        type: sum
+        sql: arr_delay
+
+      - name: avg_arr_delay
+        title: Average Arrival Delay
+        description: The average arrival delay of all flights in the dataset.
+        type: avg
+        sql: arr_delay
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started

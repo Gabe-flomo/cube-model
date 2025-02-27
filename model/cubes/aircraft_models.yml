@@ -1,0 +1,54 @@
+cubes:
+  - name: aircraft_models
+    title: Aircraft Models
+    description: Detailed information about aircraft models, including manufacturer, model name, and specifications. Each row represents a unique aircraft model entry.
+    sql_table: hex_app_data.semantic_model_data.aircraft_models
+    data_source: default
+
+    joins: []
+
+    dimensions:
+      - name: aircraft_model_code
+        sql: aircraft_model_code
+        type: string
+        primary_key: true
+
+      - name: manufacturer
+        sql: manufacturer
+        type: string
+
+      - name: model
+        sql: model
+        type: string
+
+      - name: seats
+        sql: seats
+        type: number
+
+      - name: weight
+        sql: weight
+        type: number
+
+      - name: speed
+        sql: speed
+        type: number
+
+    measures:
+      - name: aircraft_model_count
+        title: Aircraft Model Count
+        description: The total number of aircraft models in the dataset.
+        type: count
+
+      - name: mean_seats
+        title: Mean Seats
+        description: The average number of seats across all aircraft models.
+        type: avg
+        sql: seats
+
+      - name: mean_weight
+        title: Mean Weight
+        description: The average weight of all aircraft models.
+        type: avg
+        sql: |
+          {CUBE}.weight
+

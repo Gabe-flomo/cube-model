@@ -1,0 +1,32 @@
+cubes:
+  - name: carriers
+    title: Carriers
+    description: Detailed information about carriers, including carrier code, name, and nickname. Each row represents a unique carrier entry.
+    sql_table: hex_app_data.semantic_model_data.carriers
+    data_source: default
+
+    joins: []
+
+    dimensions:
+      - name: code
+        sql: code
+        type: string
+        primary_key: true
+
+      - name: name
+        sql: name
+        type: string
+
+      - name: nickname
+        sql: nickname
+        type: string
+
+    measures:
+      - name: carrier_count
+        title: Carrier Count
+        description: The total number of carriers in the dataset.
+        type: count
+
+    pre_aggregations:
+      # Pre-aggregation definitions go here.
+      # Learn more in the documentation: https://cube.dev/docs/caching/pre-aggregations/getting-started
